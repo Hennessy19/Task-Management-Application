@@ -2,12 +2,16 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import mongodb from 'mongodb';
-
+import path from 'path';
+import { fileURLToPath } from 'url';
+import authRoutes from './routes/auth.js';
 
 const app = express();
 dotenv.config();
 const PORT = process.env.PORT || 5000;
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const connectToDB = async () => {
     try {
@@ -19,6 +23,19 @@ const connectToDB = async () => {
 };
 
 connectToDB();
+
+app.use(express.json({extended: false}));
+
+app.use('/api/auth', authRoutes);
+
+if(process.env.NODE_ENV === 'production') {
+    // Set the static folder
+    app.use(express.static('client/build'));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    });
+}
 
 mongoose.connection.on('connected', () => {
     console.log('Mongoose is connected');

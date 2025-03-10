@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 
-const schema = mongoose.Schema;
+const Schema = mongoose.Schema;  // Changed from lowercase schema to Schema (convention)
 
 // this defines the schema(blueprint) for the user model
-const userSchema = new Schema({
+const userSchema = new Schema({  // Changed to use the properly cased variable
     name: {
         type: String,
         required: true,
@@ -24,4 +24,4 @@ const userSchema = new Schema({
     }
 });
 
-export default mongoose.model('User', userSchema); 
+export default mongoose.model('User', userSchema);
