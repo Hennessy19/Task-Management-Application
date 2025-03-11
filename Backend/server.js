@@ -5,6 +5,7 @@ import mongodb from 'mongodb';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import authRoutes from './routes/auth.js';
+import taskRoutes from './routes/tasks.js';
 
 const app = express();
 dotenv.config();
@@ -27,6 +28,7 @@ connectToDB();
 app.use(express.json({extended: false}));
 
 app.use('/api/auth', authRoutes);
+app.use('/api/tasks', taskRoutes);
 
 if(process.env.NODE_ENV === 'production') {
     // Set the static folder

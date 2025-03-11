@@ -10,3 +10,11 @@ export const loginValidation = [
     check('email', 'Please include a valid email').isEmail(),
     check('password', 'Password is required').exists()
 ]
+
+export const taskValidation = [
+    check('title', 'Title is required').not().isEmpty(),
+    // check('description', 'Description is required').not().isEmpty(),
+    // check('priority', 'Priority is required').not().isEmpty(),
+    // check('dueDate', 'Due Date is required').not().isEmpty(),
+    // check('category', 'Category is required').not().isEmpty()
+];

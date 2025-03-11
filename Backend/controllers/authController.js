@@ -4,6 +4,7 @@ import User from '../models/User.js';
 import { validationResult } from 'express-validator';
 
 export const registerUser = async (req, res) => {
+    console.log("Request Body :: 2️⃣ ",req.body);
     const errors = validationResult(req); // check for errors
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -102,4 +103,4 @@ export const getCurrentUser = async (req, res) => {
         console.error(error.message);
         res.status(500).send('Internal Server Error');
     }
-}
+};
