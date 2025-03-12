@@ -6,9 +6,25 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import authRoutes from './routes/auth.js';
 import taskRoutes from './routes/tasks.js';
+import cors from 'cors';
+import helmet from 'helmet';
+import ratelimit from 'express-rate-limit';
+import errorHandler from './middleware/errorHandler.js';
+
 
 const app = express();
 dotenv.config();
+app.use(cors());// Cross-Origin Resource Sharing (CORS) is a security feature that restricts cross-origin HTTP requests that are initiated from scripts running in the browser.
+app.use(helmet()); // Helmet helps you secure your Express apps by setting various HTTP headers.
+
+// Rate Limiting 
+const limiter = ratelimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100 // limit each IP to 100 requests per windowMs
+});
+app.use('/api/',limiter);
+
+
 const PORT = process.env.PORT || 5000;
 
 const __filename = fileURLToPath(import.meta.url);
@@ -29,6 +45,8 @@ app.use(express.json({extended: false}));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
+
+app.use(errorHandler);
 
 if(process.env.NODE_ENV === 'production') {
     // Set the static folder

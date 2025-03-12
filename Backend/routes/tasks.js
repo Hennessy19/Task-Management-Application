@@ -1,7 +1,7 @@
 import express from 'express';
 import auth from '../middleware/auth.js';
 import { taskValidation } from '../middleware/validators.js';
-import { getTasks, getTask, createTask, updateTask, deleteTask } from '../controllers/taskController.js';
+import { getTasks, getTask, createTask, updateTask, deleteTask, getFilteredTasks, searchTasks, getTaskStats } from '../controllers/taskController.js';
 
 const router = express.Router();    
 
@@ -34,5 +34,15 @@ router.delete('/:id', auth, deleteTask);
 // @desc     Get filtered tasks
 // @access   Private
 router.get('/filter', auth, getFilteredTasks);
+
+// @route    GET api/tasks/search
+// @desc     Search tasks
+// @access   Private
+router.get('/search', auth, searchTasks);
+
+// @route    GET api/tasks/stats
+// @desc     Get task stats
+// @access   Private
+router.get('/stats', auth, getTaskStats);
 
 export default router;
